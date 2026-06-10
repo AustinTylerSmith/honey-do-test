@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# Local-only configuration (secrets, SMTP credentials, etc.) - never committed
+application-local.properties
+
 ### STS ###
 .apt_generated
 .classpath
