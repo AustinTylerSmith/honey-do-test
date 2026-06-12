@@ -1,5 +1,6 @@
 package com.honeydo.service;
 
+import com.honeydo.dao.ListDAO;
 import com.honeydo.dao.UserDAO;
 import com.honeydo.dto.AuthResponse;
 import com.honeydo.dto.LoginRequest;
@@ -21,13 +22,15 @@ public class AuthService {
     private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
     private final UserDAO userDAO;
+    private final ListDAO listDAO;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserDAO userDAO, PasswordEncoder passwordEncoder,
+    public AuthService(UserDAO userDAO, ListDAO listDAO, PasswordEncoder passwordEncoder,
                         JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userDAO = userDAO;
+        this.listDAO = listDAO;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -53,6 +56,13 @@ public class AuthService {
             user = userDAO.save(request.getEmail(), passwordHash);
         } catch (DataAccessException e) {
             log.error("Failed to save new user with email {}", request.getEmail(), e);
+            throw e;
+        }
+
+        try {
+            listDAO.createListForUser(user.getId(), "My Tasks");
+        } catch (DataAccessException e) {
+            log.error("Failed to create default list for user {}", user.getId(), e);
             throw e;
         }
 

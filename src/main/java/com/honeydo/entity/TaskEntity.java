@@ -7,16 +7,21 @@ public class TaskEntity {
     private String title;
     private boolean completed;
     private String createdAt;
+    private String dueDate;
+    private Integer estimatedMinutes;
 
     public TaskEntity() {
     }
 
-    public TaskEntity(Long id, Long userId, String title, boolean completed, String createdAt) {
+    public TaskEntity(Long id, Long userId, String title, boolean completed, String createdAt,
+                       String dueDate, Integer estimatedMinutes) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.completed = completed;
         this.createdAt = createdAt;
+        this.dueDate = dueDate;
+        this.estimatedMinutes = estimatedMinutes;
     }
 
     public Long getId() {
@@ -57,5 +62,21 @@ public class TaskEntity {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Integer getEstimatedMinutes() {
+        return estimatedMinutes;
+    }
+
+    public void setEstimatedMinutes(Integer estimatedMinutes) {
+        this.estimatedMinutes = estimatedMinutes;
     }
 }
